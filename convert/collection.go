@@ -1,11 +1,11 @@
 package convert
 
-func Slice[from any, to any](s []from, f func(v from) to) []to {
+func Slice[From any, To any](s []From, f func(v From) To) []To {
 	if s == nil {
 		return nil
 	}
 
-	out := make([]to, len(s))
+	out := make([]To, len(s))
 	for i, v := range s {
 		out[i] = f(v)
 	}
@@ -27,4 +27,14 @@ func Map[FromKey comparable, FromValue any, ToKey comparable, ToValue any](
 	}
 
 	return out
+}
+
+func Slice2Map[From any, ToKey comparable, ToValue any](s []From, f func(v From) (ToKey, ToValue)) map[ToKey]ToValue {
+	m := make(map[ToKey]ToValue, len(s))
+	for i := range s {
+		k, v := f(s[i])
+		m[k] = v
+	}
+
+	return m
 }
