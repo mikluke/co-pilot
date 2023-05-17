@@ -38,3 +38,12 @@ func Slice2Map[From any, ToKey comparable, ToValue any](s []From, f func(v From)
 
 	return m
 }
+
+func Map2Slice[FromKey comparable, FromValue any, To any](m map[FromKey]FromValue, f func(k FromKey, v FromValue) To) []To {
+	s := make([]To, 0, len(m))
+	for k, v := range m {
+		s = append(s, f(k, v))
+	}
+
+	return s
+}
