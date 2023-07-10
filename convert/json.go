@@ -1,6 +1,7 @@
 package convert
 
 import (
+	"bytes"
 	"encoding/json"
 	"fmt"
 )
@@ -12,4 +13,18 @@ func FromJSON[T any](b []byte) (*T, error) {
 	}
 
 	return &v, nil
+}
+
+func CompactJSON(b []byte) ([]byte, error) {
+	if b == nil {
+		return nil, nil
+	}
+
+	buf := bytes.NewBuffer(make([]byte, 0, len(b)))
+
+	if err := json.Compact(buf, b); err != nil {
+		return nil, err
+	}
+
+	return buf.Bytes(), nil
 }
