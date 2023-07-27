@@ -2,6 +2,13 @@ package slice
 
 import "github.com/mikluke/co-pilot/convert"
 
+func Split[T any](items []T, chunkSize int) (chunks [][]T) {
+	for chunkSize < len(items) {
+		items, chunks = items[chunkSize:], append(chunks, items[0:chunkSize:chunkSize])
+	}
+	return append(chunks, items)
+}
+
 func Contains[T comparable](s []T, v T) bool {
 	for i := range s {
 		if s[i] == v {
