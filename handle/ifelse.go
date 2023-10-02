@@ -22,12 +22,14 @@ func QNil[T any, R any](checkValue *T, retValue R) R {
 	return retValue
 }
 
-// Coalesce returns value if it's not nil, otherwise returns defaultValue.
-// Be wary that value and defaultValue are determined before this function call.
-func Coalesce[T any](value, defaultValue *T) *T {
-	if value == nil {
-		return defaultValue
+// Coalesce returns first not nil value
+// Be wary that all values are determined before this function call.
+func Coalesce[T any](value ...*T) *T {
+	for _, v := range value {
+		if v != nil {
+			return v
+		}
 	}
 
-	return value
+	return nil
 }
